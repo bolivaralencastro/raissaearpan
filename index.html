@@ -182,7 +182,7 @@ body.prep .cue{display:block;font-size:1.05rem;font-weight:700;color:#fff;line-h
   <button id="menu" aria-label="Lista de músicas"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zM4 11h16v2H4zM4 16h16v2H4z"/></svg></button>
   <ol id="list"></ol>
   <div hidden>
-    <span id="artist"></span><span id="cur">0:00</span><span id="tot">3:18</span>
+    <span id="artist"></span><span id="cur">0:00</span><span id="tot">3:14</span>
     <button id="prev"></button><button id="restart"></button><button id="next"></button>
     <input id="vol" type="range" min="0" max="1" step="0.01" value="1"><div id="eq"></div>
   </div>
@@ -192,7 +192,7 @@ body.prep .cue{display:block;font-size:1.05rem;font-weight:700;color:#fff;line-h
 const SRC='audio/sequencia.mp3';
 const PREP=3; // s antes da próxima música: aviso "A seguir" + contagem regressiva
 const TRACKS=[
-  {t:'Beedi',a:'Omkara · abertura',d:18,gap:1.2,cue:'Entrada Bollywood! Braços pro alto 🙌'},
+  {t:'Beedi',a:'Omkara · abertura',d:14,gap:1.2,cue:'Entrada Bollywood! Braços pro alto 🙌'},
   {t:'Fala mal de mim',a:'MC Beyoncé',d:32,gap:1.2,cue:'Atitude total, pode mandar ver! 🔥'},
   {t:'Break my soul',a:'Beyoncé',d:27,gap:1.2,cue:'Quadril solto, as noivas no comando! 👑'},
   {t:'Vou desafiar você',a:'MC Sapão',d:31,gap:1.2,cue:'Desafio aceito! Quem dança melhor? 😎'},
@@ -339,8 +339,8 @@ const RIGS={
   ]},
 };
 const BEATS=[ // bpm e 1ª batida (s, no arquivo único) medidos de cada trecho + estilo de dança
-  {bpm:120,off:0.32,style:0},{bpm:130,off:19.62,style:1},{bpm:115,off:52.54,style:2},
-  {bpm:132,off:80.65,style:3},{bpm:121,off:113.01,style:4},{bpm:120,off:186.67,style:5}];
+  {bpm:120,off:0.32,style:0},{bpm:130,off:15.62,style:1},{bpm:115,off:48.54,style:2},
+  {bpm:132,off:76.65,style:3},{bpm:121,off:109.01,style:4},{bpm:120,off:182.67,style:5}];
 
 function buildDancer(el,rig){
   const sc=el.querySelector('.sc'),els={},defs={};
