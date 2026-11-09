@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dança da Raissa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --maroon:#4a0a2a; --maroon2:#2b0618; --magenta:#d81b72; --orange:#ff8a00; --marigold:#ffb300;
+  --gold:#ffd166; --cream:#fff3dc; --teal:#00a89d;
+}
+*{box-sizing:border-box;margin:0}
+html{overflow-x:hidden}
+body{
+  font-family:'Poppins',system-ui,sans-serif; color:var(--cream);
+  background:
+    radial-gradient(circle at 50% 0%, #7a1245 0%, transparent 55%),
+    radial-gradient(circle at 50% 100%, #8a2a00 0%, transparent 50%),
+    var(--maroon2);
+  overflow-x:hidden;
+}
+.page{min-height:100vh;display:flex;padding:70px 16px 24px}
+@media (min-width:1240px){.page{padding-bottom:120px}}
+/* padrão de fundo (rangoli em losangos) */
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; opacity:.14; pointer-events:none;
+  background-image:
+    radial-gradient(circle at 25px 25px, var(--gold) 2.5px, transparent 3px),
+    radial-gradient(circle at 0 0, var(--gold) 1.5px, transparent 2px),
+    radial-gradient(circle at 50px 50px, var(--gold) 1.5px, transparent 2px);
+  background-size:50px 50px;
+  animation:drift 40s linear infinite;
+}
+@keyframes drift{to{background-position:50px 50px,50px 50px,100px 100px}}
+
+/* guirlandas de calêndula */
+.garland{position:fixed;top:0;left:0;right:0;height:64px;z-index:3;display:flex;justify-content:space-around;pointer-events:none}
+.garland i{
+  width:26px;height:26px;border-radius:50%;margin-top:6px;position:relative;
+  background:radial-gradient(circle,#ffe27a 0 25%,var(--orange) 26% 60%,#e65100 61%);
+  box-shadow:0 0 10px rgba(255,170,0,.7);
+  transform-origin:50% -60px; animation:sway 3s ease-in-out infinite;
+}
+.garland i::before{content:"";position:absolute;left:50%;bottom:100%;width:2px;height:var(--h,24px);background:var(--gold);opacity:.8}
+@keyframes sway{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+
+.head{position:fixed;top:54px;left:0;right:0;z-index:3;text-align:center;pointer-events:none;padding:0 12px}
+.shubh{font-family:'Rozha One',serif;font-size:.95rem;color:var(--gold);letter-spacing:.1em}
+h1{font-family:'Rozha One',serif;font-weight:400;font-size:clamp(1.5rem,5vw,2.3rem);line-height:1.05;margin:2px 0 0;
+  background:linear-gradient(90deg,var(--gold),#fff,var(--marigold),#fff,var(--gold));background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:200% 0}}
+.sub{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#ffc4de;margin-top:2px}
+
+#probe{position:fixed;left:0;top:0;width:100%;height:100%;visibility:hidden;pointer-events:none}
+/* parede com mandala gigante atrás do casal */
+.wall{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.mandala{position:absolute;left:50%;opacity:.55;animation:spin 40s linear infinite;animation-play-state:paused;filter:drop-shadow(0 0 22px rgba(255,170,0,.45))}
+.mandala .r2{transform-origin:50% 50%;animation:spinR 30s linear infinite;animation-play-state:inherit}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinR{to{transform:rotate(-360deg)}}
+body.playing .mandala{animation-play-state:running;animation-duration:14s}
+body.playing .mandala .r2{animation-duration:11s}
+
+/* pista de dança */
+.floor{position:fixed;left:0;right:0;bottom:0;top:var(--ft,60%);z-index:1;pointer-events:none;
+  background:
+    repeating-linear-gradient(60deg,rgba(255,179,0,.20) 0 22px,transparent 22px 44px),
+    repeating-linear-gradient(-60deg,rgba(216,27,114,.28) 0 22px,transparent 22px 44px),
+    linear-gradient(180deg,#5a0f36,#2b0618);
+  border-top:4px solid var(--gold);box-shadow:0 -10px 40px rgba(255,140,0,.35)}
+.floor::before{content:"";position:absolute;left:0;right:0;top:-4px;height:6px;
+  background:repeating-linear-gradient(90deg,var(--marigold) 0 10px,var(--magenta) 10px 20px,var(--teal) 20px 30px)}
+.floor::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,6,24,.65),transparent 55%)}
+.diyas{position:absolute;left:0;right:0;top:-26px;display:flex;justify-content:space-around;font-size:20px;z-index:2}
+.diyas span{animation:flame 1.1s ease-in-out infinite alternate}
+@keyframes flame{from{filter:brightness(.9) drop-shadow(0 0 3px orange)}to{filter:brightness(1.3) drop-shadow(0 0 12px gold)}}
+
+.scene{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.rangoli{position:absolute;aspect-ratio:1;transform:rotateX(74deg);opacity:.95}
+.rangoli i{position:absolute;inset:0;border-radius:50%;
+  background:
+    radial-gradient(circle,#4a0a2a 0 12%,transparent 13%),
+    radial-gradient(circle,transparent 0 58%,rgba(255,209,102,.9) 59% 61%,transparent 62%),
+    repeating-conic-gradient(#d81b72 0 10deg,#ffb300 10deg 20deg,#00a89d 20deg 30deg,#ff8a00 30deg 40deg);
+  box-shadow:0 0 50px rgba(255,140,0,.6);animation:spin 20s linear infinite;animation-play-state:paused;opacity:.85}
+body.playing .rangoli i{animation-play-state:running;animation-duration:8s}
+.dancer{position:absolute}
+.dancer .sc{position:absolute;left:0;top:0;width:520px;height:820px;transform-origin:0 0}
+.dancer .part{position:absolute}
+.dancer .part img{width:100%;height:100%;display:block;-webkit-user-drag:none;user-select:none}
+
+.mad{display:none}
+body.land .mad{display:block}
+body.land .head{display:none}
+
+/* player: uma linha só — play, música, progresso, lista */
+.bar{position:fixed;z-index:4;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);
+  width:min(calc(100% - 24px),420px);display:flex;align-items:center;gap:12px;padding:8px 12px 8px 8px;border-radius:999px;
+  background:rgba(30,4,18,.86);border:1px solid rgba(255,209,102,.45);box-shadow:0 8px 28px rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:box-shadow .3s,border-color .3s}
+#play,#menu{appearance:none;-webkit-appearance:none;margin:0;padding:0;flex:none;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:transform .15s,background .15s}
+#play{width:48px;height:48px;border:0;color:#fff;background:linear-gradient(145deg,#ff5ea8,#d81b72 60%,#a30d52);box-shadow:inset 0 0 0 2px var(--gold)}
+#play:active{transform:scale(.92)}
+#play svg{width:22px;height:22px;fill:#fff;display:block}
+body:not(.playing) #play .i-pause{display:none}
+body.playing #play .i-play{display:none}
+body:not(.playing) #play{animation:breathe 1.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+#menu{width:36px;height:36px;border:0;background:transparent;color:var(--gold);opacity:.85}
+#menu:hover,#menu.on{background:rgba(255,209,102,.18);opacity:1}
+#menu svg{width:20px;height:20px;fill:currentColor;display:block}
+.info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:7px}
+.line{display:flex;align-items:center;gap:8px;min-width:0}
+.title{font-weight:600;font-size:.95rem;line-height:1.1;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.num,.cue{display:none}
+.timeline{display:flex;gap:3px}
+.seg{flex:var(--w);height:5px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden;cursor:pointer;position:relative}
+.seg::after{content:"";position:absolute;inset:-8px 0}
+.seg i{position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--orange),var(--magenta))}
+.seg.done i{width:100%}
+.seg.cur{box-shadow:0 0 0 1px var(--gold)}
+ol{display:none;list-style:none;padding:6px;margin:0;position:absolute;left:0;right:0;bottom:calc(100% + 10px);
+  background:rgba(30,4,18,.94);border:1px solid rgba(255,209,102,.4);border-radius:20px;backdrop-filter:blur(10px)}
+.bar.open ol{display:block}
+li{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:14px;cursor:pointer;border:1px solid transparent;font-size:.88rem}
+li:hover{background:rgba(255,255,255,.08)}
+li .n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.75rem;background:rgba(255,209,102,.2);color:var(--gold);flex:none}
+li .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+li small{color:#ffc4de}
+li .d{font-variant-numeric:tabular-nums;color:#ffc4de;font-size:.78rem}
+li.cur{background:linear-gradient(90deg,rgba(255,138,0,.35),rgba(216,27,114,.35));border-color:var(--gold)}
+li.cur .n{background:var(--marigold);color:var(--maroon)}
+li.done{opacity:.55}
+li.next{background:rgba(255,179,0,.18);border-color:var(--marigold)}
+/* aviso "preparem-se": o texto da barra vira a contagem */
+body.prep .bar{border-color:var(--magenta);box-shadow:0 0 0 2px rgba(216,27,114,.6),0 0 32px rgba(255,140,0,.7)}
+body.prep .title{display:none}
+body.prep .num{display:inline-block;background:var(--magenta);color:#fff;font-weight:700;font-size:.62rem;border-radius:99px;padding:2px 8px;letter-spacing:.06em;white-space:nowrap}
+body.prep .cue{display:block;font-size:1.05rem;font-weight:700;color:#fff;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* pétalas */
+.petal{position:fixed;top:-40px;z-index:5;pointer-events:none;font-size:var(--s,22px);animation:fall var(--t,4s) linear forwards}
+@keyframes fall{to{transform:translate(var(--x,0),110vh) rotate(var(--r,360deg));opacity:.9}}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="garland" id="garland"></div>
+
+<div id="probe" aria-hidden="true"></div>
+<header class="head">
+  <div class="shubh">शुभ विवाह</div>
+  <h1>Casamento da Raissa</h1>
+  <div class="sub">Dança das Madrinhas &amp; Noivas</div>
+</header>
+
+<div class="wall"><svg class="mandala" id="mandala" viewBox="-100 -100 200 200" aria-hidden="true"></svg></div>
+
+<div class="floor" id="floor"><div class="diyas" id="diyas"></div></div>
+
+<div class="scene" id="scene">
+  <div class="rangoli" id="rangoli"><i></i></div>
+  <div class="dancer" id="dRaissa"><div class="sc"></div></div>
+  <div class="dancer" id="dNoivo"><div class="sc"></div></div>
+</div>
+
+<div class="bar" id="bar">
+  <button id="play" aria-label="Tocar / pausar">
+    <svg class="i-play" viewBox="0 0 24 24"><path d="M6 4.5v15l12.5-7.5z"/></svg>
+    <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+  <div class="info">
+    <div class="line"><span class="num" id="num">VAMOS DANÇAR?</span><span class="title" id="title">Aperte o play</span></div>
+    <div class="cue" id="cue">As madrinhas já estão posicionadas? 💃</div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+  <button id="menu" aria-label="Lista de músicas"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zM4 11h16v2H4zM4 16h16v2H4z"/></svg></button>
+  <ol id="list"></ol>
+  <div hidden>
+    <span id="artist"></span><span id="cur">0:00</span><span id="tot">3:18</span>
+    <button id="prev"></button><button id="restart"></button><button id="next"></button>
+    <input id="vol" type="range" min="0" max="1" step="0.01" value="1"><div id="eq"></div>
+  </div>
+</div>
+
+<script>
+const SRC='audio/sequencia.mp3';
+const PREP=3; // s antes da próxima música: aviso "A seguir" + contagem regressiva
+const TRACKS=[
+  {t:'Beedi',a:'Omkara · abertura',d:18,gap:1.2,cue:'Entrada Bollywood! Braços pro alto 🙌'},
+  {t:'Fala mal de mim',a:'MC Beyoncé',d:32,gap:1.2,cue:'Atitude total, pode mandar ver! 🔥'},
+  {t:'Break my soul',a:'Beyoncé',d:27,gap:1.2,cue:'Quadril solto, as noivas no comando! 👑'},
+  {t:'Vou desafiar você',a:'MC Sapão',d:31,gap:1.2,cue:'Desafio aceito! Quem dança melhor? 😎'},
+  {t:'Água de chuva no mar',a:'Beth Carvalho (ao vivo)',d:71,gap:2.7,cue:'Sambinha no pé, de mãos dadas! 💞'},
+  {t:'Beedi',a:'Omkara · grand finale',d:11,cue:'Gran finale, todo mundo junto! ✨'},
+];
+// início/fim de cada música no arquivo único (as demais entram em overlap; o scratch ocupa o `gap` de 1,2 s antes da Água de chuva no mar)
+let _acc=0;TRACKS.forEach(t=>{t.start=_acc;t.end=_acc+t.d;_acc=t.end+(t.gap||0)});
+const TOTAL=TRACKS[TRACKS.length-1].end;
+TRACKS.forEach((t,i)=>{t.from=t.start;t.to=i===TRACKS.length-1?TOTAL:TRACKS[i+1].start;t.len=t.to-t.from});
+const idxAt=time=>{for(let i=TRACKS.length-1;i>=0;i--)if(time>=TRACKS[i].start)return i;return 0};
+const $=id=>document.getElementById(id);
+const fmt=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const audio=new Audio(); audio.preload='auto'; audio.src=SRC;
+let idx=-1, started=false, isPrep=false, lastCount=-1;
+
+/* guirlandas (reconstruídas quando a largura muda) */
+function buildGarland(w){const g=$('garland');g.innerHTML='';const n=Math.max(8,Math.floor(w/55));
+ for(let i=0;i<n;i++){const e=document.createElement('i');e.style.setProperty('--h',(16+Math.random()*34)+'px');e.style.animationDelay=(-Math.random()*3)+'s';e.style.marginTop=(4+Math.random()*10)+'px';g.appendChild(e)}}
+
+/* mandala */
+(()=>{
+ const NS='http://www.w3.org/2000/svg';const svg=$('mandala');
+ const mk=(n,at,p)=>{const e=document.createElementNS(NS,n);for(const k in at)e.setAttribute(k,at[k]);(p||svg).appendChild(e);return e};
+ const g1=mk('g',{}), g2=mk('g',{class:'r2'});
+ mk('circle',{r:98,fill:'rgba(43,6,24,.55)',stroke:'#ffd166','stroke-width':2.5},g1);
+ mk('circle',{r:93,fill:'none',stroke:'#d81b72','stroke-width':1.5,'stroke-dasharray':'2 4'},g1);
+ const ring=(g,n,rx,ry,cy,fill,stroke)=>{for(let i=0;i<n;i++){mk('ellipse',{cx:0,cy:cy,rx:rx,ry:ry,fill:fill,stroke:stroke,'stroke-width':1,transform:`rotate(${i*360/n})`},g)}};
+ ring(g1,16,6,17,-76,'#ff8a00','#ffd166');
+ ring(g1,16,3.5,10,-76,'#d81b72','#fff3dc');
+ ring(g2,12,9,22,-52,'#00a89d','#ffd166');
+ ring(g2,12,4.5,12,-52,'#ffb300','#4a0a2a');
+ ring(g1,8,7,16,-30,'#d81b72','#ffd166');
+ for(let i=0;i<24;i++){const a=i*15*Math.PI/180;mk('circle',{cx:Math.sin(a)*66,cy:-Math.cos(a)*66,r:2,fill:'#fff3dc'},g2)}
+ mk('circle',{r:26,fill:'#4a0a2a',stroke:'#ffd166','stroke-width':2},g1);
+})();
+
+/* equalizador */
+(()=>{const e=$('eq');for(let i=0;i<28;i++){const b=document.createElement('b');b.style.setProperty('--d',(.35+Math.random()*.65)+'s');b.style.animationDelay=(-Math.random())+'s';e.appendChild(b)}})();
+
+/* timeline + lista */
+const segs=[],items=[];
+TRACKS.forEach((t,i)=>{
+  const s=document.createElement('div');s.className='seg';s.style.setProperty('--w',t.len);s.title=t.t;s.innerHTML='<i></i>';
+  s.onclick=()=>go(i,true);$('timeline').appendChild(s);segs.push(s);
+  const li=document.createElement('li');
+  li.innerHTML=`<span class="n">${i+1}</span><span class="t">${t.t} <small>· ${t.a}</small></span><span class="d">${fmt(t.d)}</span>`;
+  li.onclick=()=>go(i,true);$('list').appendChild(li);items.push(li);
+});
+$('tot').textContent=fmt(TOTAL);
+
+/* pétalas */
+function petals(n=36){
+  const em=['🌼','🏵️','🌸','✨','🌺'];
+  for(let i=0;i<n;i++){
+    const p=document.createElement('span');p.className='petal';p.textContent=em[Math.floor(Math.random()*em.length)];
+    p.style.left=Math.random()*100+'vw';p.style.setProperty('--s',(16+Math.random()*20)+'px');
+    p.style.setProperty('--t',(3+Math.random()*3)+'s');p.style.setProperty('--x',(Math.random()*160-80)+'px');
+    p.style.setProperty('--r',(Math.random()*720-360)+'deg');p.style.animationDelay=(Math.random()*.8)+'s';
+    document.body.appendChild(p);setTimeout(()=>p.remove(),7500);
+  }
+}
+
+function render(){
+  const nx=isPrep?idx+1:idx;
+  items.forEach((li,i)=>{li.classList.toggle('cur',i===idx&&!isPrep);li.classList.toggle('next',isPrep&&i===nx);li.classList.toggle('done',i<idx||(isPrep&&i===idx))});
+  segs.forEach((s,i)=>{s.classList.toggle('cur',i===idx);s.classList.toggle('done',i<idx)});
+  document.body.classList.toggle('prep',isPrep);
+  if(idx>=0){const t=TRACKS[nx];
+    $('num').textContent=isPrep?`PREPAREM-SE! · MÚSICA ${nx+1} DE ${TRACKS.length}`:`MÚSICA ${idx+1} DE ${TRACKS.length}`;
+    $('title').textContent=(isPrep?'A seguir: ':'')+t.t;$('artist').textContent=t.a;
+    if(!isPrep)$('cue').textContent=t.cue;}
+}
+/* sincroniza a interface com o tempo do áudio (sem trocar de arquivo: transição contínua) */
+function sync(){
+  if(!started)return;
+  const time=audio.currentTime,i=idxAt(time),t=TRACKS[i];
+  const prep=i<TRACKS.length-1&&time>=TRACKS[i+1].start-PREP;
+  if(i!==idx||prep!==isPrep){
+    const newMusic=!prep&&(i!==idx||isPrep);
+    idx=i;isPrep=prep;lastCount=-1;render();if(newMusic)petals(24);
+  }
+  if(isPrep){ // contagem regressiva até a próxima música começar
+    const n=Math.max(1,Math.ceil(TRACKS[idx+1].start-time-0.001));
+    if(n!==lastCount){lastCount=n;$('cue').textContent=`Já já: ${n}… ${n===1?'🔥':''}`}
+  }
+  segs[idx].firstChild.style.width=Math.max(0,Math.min(100,(time-t.from)/t.len*100))+'%';
+  $('cur').textContent=fmt(time);
+}
+let raf=0;
+function loop(){sync();raf=requestAnimationFrame(loop)}
+function seekTo(i){started=true;audio.currentTime=TRACKS[i].start;idx=-1;isPrep=false;sync();}
+function go(i,play=true){seekTo(i);if(play)audio.play().catch(()=>{})}
+function finish(){
+  celebrateUntil=performance.now()+5000;
+  cancelAnimationFrame(raf);document.body.classList.remove('playing');idx=-1;isPrep=false;started=false;document.body.classList.remove('prep');
+  segs.forEach(s=>{s.classList.add('done');s.firstChild.style.width='100%';s.classList.remove('cur')});items.forEach(l=>{l.classList.remove('cur');l.classList.add('done')});
+  $('num').textContent='FIM! 🎉';$('title').textContent='Palmas pras noivas e madrinhas!';
+  $('artist').textContent='Quer repetir? Aperte o play';$('cue').textContent='👏👏👏';petals(80);
+  audio.currentTime=0;
+  setTimeout(()=>{if(started)return;segs.forEach(s=>{s.classList.remove('done');s.firstChild.style.width='0'});items.forEach(l=>l.classList.remove('done'))},4000);
+}
+function toggle(){
+  if(!started){segs.forEach(s=>s.firstChild.style.width='0');go(0,true);return}
+  audio.paused?audio.play():audio.pause();
+}
+audio.addEventListener('play',()=>{document.body.classList.add('playing');cancelAnimationFrame(raf);loop()});
+audio.addEventListener('pause',()=>{if(!audio.ended){document.body.classList.remove('playing');cancelAnimationFrame(raf);sync()}});
+audio.addEventListener('ended',finish);
+audio.addEventListener('seeked',sync);
+$('play').onclick=toggle;
+$('next').onclick=()=>go(Math.min(TRACKS.length-1,(started?idx:-1)+1));
+$('prev').onclick=()=>{ if(started&&idx>=0&&audio.currentTime-TRACKS[idx].start>3){go(idx)} else go(Math.max(0,idx-1)) };
+$('restart').onclick=()=>go(0);
+
+/* ===== bonequinhos dançantes (peças recortadas + juntas) ===== */
+const RW=520, RH=820;
+const RIGS={
+  raissa:{dir:'sprites/raissa/',parts:[
+    {id:'hair',  f:'hairback',x:149,y:72, w:221,h:291,px:260,py:287,z:1},
+    {id:'ftvl',  f:'foot_r',  x:172,y:632,w:66, h:70, px:205,py:640,z:2},
+    {id:'ftvr',  f:'foot_l',  x:282,y:632,w:66, h:70, px:315,py:640,z:2},
+    {id:'skirt', f:'skirt',   x:130,y:400,w:261,h:255,px:260,py:408,z:3},
+    {id:'torso', f:'torso',   x:165,y:262,w:189,h:165,px:260,py:420,z:5},
+    {id:'dup',   f:'dupatta', x:300,y:275,w:95, h:250,px:347,py:280,z:1,parent:'torso'},
+    {id:'uvl',   f:'uarm_r',  x:156,y:282,w:47, h:136,px:179,py:296,z:3,parent:'torso'},
+    {id:'fvl',   f:'farm_r',  x:161,y:404,w:36, h:134,px:179,py:410,z:2,parent:'uvl'},
+    {id:'uvr',   f:'uarm_l',  x:317,y:282,w:47, h:136,px:341,py:296,z:3,parent:'torso'},
+    {id:'fvr',   f:'farm_l',  x:323,y:404,w:36, h:134,px:341,py:410,z:2,parent:'uvr'},
+    {id:'head',  f:'head',    x:144,y:62, w:231,h:256,px:259,py:304,z:9,parent:'torso'},
+  ]},
+  noivo:{dir:'sprites/noivo/',parts:[
+    {id:'lvl',  f:'leg_r',  x:186,y:552,w:73,h:197,px:222,py:566,z:2},
+    {id:'svl',  f:'shoe_r', x:186,y:722,w:103,h:54,px:222,py:728,z:1,parent:'lvl'},
+    {id:'lvr',  f:'leg_l',  x:262,y:552,w:73,h:197,px:298,py:566,z:2},
+    {id:'svr',  f:'shoe_l', x:262,y:722,w:103,h:54,px:298,py:728,z:1,parent:'lvr'},
+    {id:'coat', f:'coat',   x:168,y:420,w:184,h:182,px:260,py:428,z:4},
+    {id:'torso',f:'torso',  x:188,y:232,w:145,h:213,px:260,py:436,z:5},
+    {id:'uvl',  f:'uarm_r', x:166,y:262,w:55,h:137,px:193,py:278,z:3,parent:'torso'},
+    {id:'fvl',  f:'farm_r', x:170,y:385,w:47,h:146,px:193,py:392,z:2,parent:'uvl'},
+    {id:'uvr',  f:'uarm_l', x:300,y:262,w:55,h:137,px:327,py:278,z:3,parent:'torso'},
+    {id:'fvr',  f:'farm_l', x:304,y:385,w:47,h:146,px:327,py:392,z:2,parent:'uvr'},
+    {id:'head', f:'head',   x:173,y:20, w:173,h:234,px:260,py:246,z:9,parent:'torso'},
+  ]},
+};
+const BEATS=[ // bpm e 1ª batida (s, no arquivo único) medidos de cada trecho + estilo de dança
+  {bpm:120,off:0.32,style:0},{bpm:130,off:19.62,style:1},{bpm:115,off:52.54,style:2},
+  {bpm:132,off:80.65,style:3},{bpm:121,off:113.01,style:4},{bpm:120,off:186.67,style:5}];
+
+function buildDancer(el,rig){
+  const sc=el.querySelector('.sc'),els={},defs={};
+  rig.parts.forEach(p=>defs[p.id]=p);
+  rig.parts.forEach(p=>{
+    const d=document.createElement('div');d.className='part';
+    const par=p.parent?defs[p.parent]:{x:0,y:0};
+    d.style.cssText=`z-index:${p.z};left:${p.x-par.x}px;top:${p.y-par.y}px;width:${p.w}px;height:${p.h}px;transform-origin:${p.px-p.x}px ${p.py-p.y}px`;
+    const im=new Image();im.src=rig.dir+p.f+'.png';im.draggable=false;d.appendChild(im);
+    if(p.id==='hair')d.style.transformOrigin=`${260-p.x}px ${420-p.y}px`;
+    (p.parent?els[p.parent]:sc).appendChild(d);els[p.id]=d;
+  });
+  return {el,sc,els,st:{x:0,y:0,tr:0,hr:0,hair:0,uL:8,fL:6,uR:8,fR:6,low:0,sL:0,sR:0}};
+}
+const dR=buildDancer($('dRaissa'),RIGS.raissa), dN=buildDancer($('dNoivo'),RIGS.noivo);
+dR.kind='raissa';dN.kind='noivo';
+/* madrinhas: mesmo esqueleto da Raissa, sprites próprios; só aparecem com o celular deitado */
+const MADS=['m1','m2','m3','m4','m5','m6'].map(id=>{
+  const el=document.createElement('div');el.className='dancer mad';el.innerHTML='<div class="sc"></div>';$('scene').appendChild(el);
+  const d=buildDancer(el,{dir:`sprites/${id}/`,parts:RIGS.raissa.parts});d.kind='raissa';return d;
+});
+
+/* diyas na pista (reconstruídas quando a largura muda) */
+function buildDiyas(w){const d=$('diyas');d.innerHTML='';for(let i=0;i<Math.ceil(w/70);i++){const e=document.createElement('span');e.textContent='🪔';e.style.animationDelay=(-Math.random()*1.1)+'s';d.appendChild(e)}}
+
+/* posiciona o casal no centro da pista; com o celular deitado, as madrinhas entram dos dois lados */
+let lastW=0;
+function layout(){
+  const pr=$('probe').getBoundingClientRect(),vw=pr.width||innerWidth,vh=pr.height||innerHeight,land=vw>vh*1.15;
+  if(Math.abs(vw-lastW)>24){lastW=vw;buildGarland(vw);buildDiyas(vw)}
+  document.body.classList.toggle('land',land);
+  const barH=$('bar').offsetHeight;
+  const feetY=vh-barH-(land?20:30), head=land?(vh<500?12:78):(vw<520?112:118);
+  const kH=(feetY-head)/760, kW=land?vw*.85/(540+6*190*.9):vw*.86/540;
+  const k=Math.max(.2,Math.min(kH,kW,.85));
+  const sep=135*k;
+  [[dR,vw/2-sep,702],[dN,vw/2+sep,776]].forEach(([d,cx,ft])=>{
+    const st=d.el.style;st.left=(cx-RW*k/2)+'px';st.top=(feetY-ft*k)+'px';st.width=RW*k+'px';st.height=RH*k+'px';st.zIndex=2;d.k=k;
+  });
+  if(land){
+    const km=k*.9,gap=190*km,edge=2*sep;
+    MADS.forEach((d,i)=>{
+      const side=i<3?-1:1,j=i<3?i:i-3;            // 3 de cada lado, da mais próxima do casal para a mais distante
+      const cx=vw/2+side*(edge+gap*(j+.6));
+      const st=d.el.style;st.left=(cx-RW*km/2)+'px';st.top=(feetY-8*k-702*km)+'px';st.width=RW*km+'px';st.height=RH*km+'px';st.zIndex=1;d.k=km;
+    });
+  }
+  $('floor').style.setProperty('--ft',(feetY-150*k)+'px');
+  const W=Math.min(vw*1.05,(land?1500:720)*k),r=$('rangoli').style;r.width=W+'px';r.left=(vw/2-W/2)+'px';r.top=(feetY+4-W/2)+'px';
+  const M=Math.min(vw*1.1,860*k*(land?1.15:1)),m=$('mandala').style;m.width=M+'px';m.height=M+'px';m.marginLeft=(-M/2)+'px';m.top=(feetY-430*k-M/2)+'px';
+}
+/* o iOS só informa o tamanho novo depois do giro: observa a sonda e refaz o layout algumas vezes */
+let _lt=0;function relayout(){layout();clearTimeout(_lt);_lt=setTimeout(layout,150);setTimeout(layout,500);setTimeout(layout,1100)}
+addEventListener('resize',relayout);addEventListener('orientationchange',relayout);addEventListener('pageshow',relayout);
+if(window.visualViewport)visualViewport.addEventListener('resize',relayout);
+if(window.ResizeObserver)new ResizeObserver(layout).observe($('probe'));
+layout();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layout);
+$('menu').onclick=()=>{$('bar').classList.toggle('open');$('menu').classList.toggle('on');layout()};
+document.addEventListener('click',e=>{if(!e.target.closest('#bar')){$('bar').classList.remove('open');$('menu').classList.remove('on')}});
+
+/* estilos de dança: amplitudes em graus (braço E = sentido horário, braço D = anti-horário) */
+const S=Math.sin,PI=Math.PI,ab=Math.abs;
+function target(style,bt,who){
+  const m=who?-1:1; if(who)bt+=.5;
+  const T={x:0,y:0,tr:0,hr:0,hair:0,uL:10,fL:8,uR:10,fR:8,low:0,sL:Math.max(0,S(PI*bt)),sR:Math.max(0,-S(PI*bt))};
+  switch(style){
+    case 0: // bhangra: braços pro alto, joelho pulando
+      T.y=-ab(S(PI*bt))*16;T.tr=5*S(PI*bt);T.hr=-7*S(2*PI*bt);T.hair=4*S(PI*bt);
+      T.uL=135+20*S(PI*bt);T.fL=45+25*S(2*PI*bt);T.uR=135-20*S(PI*bt);T.fR=45-25*S(2*PI*bt);T.low=-5*S(PI*bt);break;
+    case 1: // funk: quadril tremendo
+      T.y=-ab(S(2*PI*bt))*7;T.low=11*S(4*PI*bt);T.tr=-6*S(4*PI*bt);T.hair=6*S(2*PI*bt);T.hr=5*S(2*PI*bt);
+      T.uL=32+28*S(2*PI*bt);T.fL=35;T.uR=32+28*S(2*PI*bt+PI);T.fR=35;T.sL=T.sR=.25;break;
+    case 2: // diva: pose e troca de lado a cada 2 tempos
+      {const q=S(PI*bt/2);T.x=18*m*q;T.y=-ab(S(PI*bt))*6;T.low=6*q;T.tr=4*q;T.hr=10*q;T.hair=8*q;
+       T.uL=q>0?150:28;T.fL=q>0?20:75;T.uR=q>0?28:150;T.fR=q>0?75:20;}break;
+    case 3: // desafio: braços alternados, passo marcado
+      T.y=-ab(S(PI*bt))*20;T.tr=9*S(PI*bt);T.hr=-6*S(PI*bt);T.hair=5*S(PI*bt);
+      T.uL=100+55*S(PI*bt);T.fL=22;T.uR=100-55*S(PI*bt);T.fR=22;break;
+    case 4: // samba: ginga, saia balançando, braços ondulando
+      T.x=30*m*S(PI*bt/2);T.y=-ab(S(PI*bt))*9;T.low=10*S(PI*bt);T.tr=-5*S(PI*bt);T.hr=9*S(PI*bt/2);T.hair=6*S(PI*bt);
+      T.uL=68+30*S(PI*bt);T.fL=30+20*S(PI*bt+1);T.uR=68-30*S(PI*bt);T.fR=30-20*S(PI*bt-1);break;
+    case 6: // pausa: posição de "prontos!", balançando de leve no tempo da próxima música
+      T.y=-ab(S(PI*bt))*4;T.tr=2*S(PI*bt);T.hr=3*S(PI*bt);T.uL=48+6*S(PI*bt);T.fL=105;T.uR=48+6*S(PI*bt+PI);T.fR=105;T.low=2*S(PI*bt);T.sL=T.sR=0;break;
+    default: // final: pulos com os braços pro céu
+      T.y=-ab(S(PI*bt))*46;T.uL=168+10*S(2*PI*bt);T.uR=168-10*S(2*PI*bt);T.fL=12;T.fR=12;T.hr=6*S(2*PI*bt);T.low=6*S(2*PI*bt);T.hair=8*S(PI*bt);T.sL=T.sR=.6;
+  }
+  return T;
+}
+function idleTarget(w){const q=S(w*2.2);return {x:0,y:2.5*q,tr:1.5*q,hr:2*S(w*1.1),hair:2*q,uL:12+3*q,fL:8,uR:12+3*q,fR:8,low:1.5*q,sL:0,sR:0}}
+
+let celebrateUntil=0,lastNow=performance.now();
+function apply(d,Tg,dt){
+  const a=1-Math.exp(-dt*16),st=d.st;
+  for(const k in Tg)st[k]+=(Tg[k]-st[k])*a;
+  const e=d.els,u=v=>`rotate(${v}deg)`;
+  // raiz inteira (pulo / ginga)
+  d.sc.style.transform=`scale(${d.k||.5}) translate(${st.x}px,${st.y}px)`;
+  e.torso.style.transform=u(st.tr);
+  e.head.style.transform=u(st.hr);
+  e.uvl.style.transform=u(st.uL);e.fvl.style.transform=u(st.fL);
+  e.uvr.style.transform=u(-st.uR);e.fvr.style.transform=u(-st.fR);
+  if(d.kind==='raissa'){
+    e.hair.style.transform=u(st.tr+st.hair);e.skirt.style.transform=u(st.low);
+    e.dup.style.transform=u(-st.tr*.6+st.hair*.7);
+    e.ftvl.style.transform=`translateY(${-st.sL*18}px)`;e.ftvr.style.transform=`translateY(${-st.sR*18}px)`;
+  }else{
+    e.coat.style.transform=u(st.low*.6);
+    e.lvl.style.transform=u(st.sL*16);e.lvr.style.transform=u(-st.sR*16);
+    e.svl.style.transform=u(-st.sL*10);e.svr.style.transform=u(st.sR*10);
+  }
+}
+function dance(now){
+  const dt=Math.min(.05,(now-lastNow)/1000);lastNow=now;
+  let T0,T1,hit=0;
+  const live=started&&!audio.paused&&idx>=0;
+  if(live||now<celebrateUntil){
+    const b=live?BEATS[idx]:{bpm:120,off:0,style:5};
+    const sty=b.style;
+    const t=live?audio.currentTime:now/1000;
+    const bt=(t-b.off)*b.bpm/60;
+    T0=target(sty,bt,0);T1=target(sty,bt,1);
+    hit=Math.exp(-(bt-Math.floor(bt))*4);
+  }else{T0=idleTarget(now/1000);T1=idleTarget(now/1000+1.3)}
+  apply(dR,T0,dt);apply(dN,T1,dt);
+  if(document.body.classList.contains('land'))MADS.forEach((d,i)=>apply(d,(live||now<celebrateUntil)?T0:idleTarget(now/1000+.45*(i+1)),dt));
+  $('rangoli').style.filter=`brightness(${1+hit*.35})`;
+  requestAnimationFrame(dance);
+}
+requestAnimationFrame(dance);
+
+$('vol').oninput=e=>audio.volume=e.target.value;
+addEventListener('keydown',e=>{
+  if(e.code==='Space'){e.preventDefault();toggle()}
+  else if(e.code==='ArrowRight')$('next').click();
+  else if(e.code==='ArrowLeft')$('prev').click();
+});
+</script>
+</body>
+</html>
